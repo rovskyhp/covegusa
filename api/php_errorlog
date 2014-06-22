@@ -1,0 +1,12 @@
+[17-Jun-2014 23:36:12 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:37:15 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:37:17 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:38:02 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:38:03 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:38:04 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[17-Jun-2014 23:55:32 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 77
+[17-Jun-2014 23:57:35 CST6CDT] PHP Parse error:  syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM in /home/covegusa/public_html/api/index.php on line 77
+[17-Jun-2014 23:59:39 CST6CDT] PHP Fatal error:  Class name must be a valid object or a string in /home/covegusa/public_html/api/index.php on line 77
+[18-Jun-2014 00:00:42 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 77
+[18-Jun-2014 00:02:02 CST6CDT] PHP Fatal error:  Class 'Slim' not found in /home/covegusa/public_html/api/index.php on line 20
+[18-Jun-2014 00:02:46 CST6CDT] PHP Parse error:  syntax error, unexpected T_OBJECT_OPERATOR in /home/covegusa/public_html/api/index.php on line 77
