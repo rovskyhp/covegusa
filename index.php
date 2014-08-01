@@ -3,11 +3,11 @@ include("config.php");
 session_start();
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-// username and password sent from Form 
-$myusername=addslashes($_POST['username']); 
-$mypassword=addslashes($_POST['password']); 
+// username and password sent from Form
+$myusername=addslashes($_POST['username']);
+$mypassword=addslashes($_POST['password']);
 
-$sql="SELECT id FROM usuarios WHERE user='$myusername' and pass='$mypassword'";
+$sql="SELECT id FROM usuarios WHERE user='$myusername' and pass=MD5('$mypassword')";
 $result=mysql_query($sql);
 $row=mysql_fetch_array($result);
 $count=mysql_num_rows($result);
@@ -19,7 +19,7 @@ if($count==1)
 $_SESSION['login_user']=$myusername;
 header("location: welcome.php");
 }
-else 
+else
 {
 $error="Your Login Name or Password is invalid";
 }

@@ -55,15 +55,23 @@ function getFactura($id) {
 function addFactura() {
     $request = Slim::getInstance()->request();
     $factura = json_decode( $request->getBody());
+    $usuario = findUsuarioByRFCBatch($factura->rfc_cliente);
+    $rfc_cliente = $factura->rfc_cliente;
+    $usuarioId = $usuario[0]->id;
+    if(strlen($usuario[0]->rfc) <= 0){
+        $usuarioId = addUsuarioBatch($factura->rfc_cliente);
+        $rfc_cliente = $factura->rfc_cliente;
+    }
+
     $sql = "INSERT INTO facturas (id_usuario, nombre_nota, nombre_pdf, nombre_xml, rfc_cliente, fecha_correspondiente) VALUES (:id_usuario, :nombre_nota, :nombre_pdf, :nombre_xml, :rfc_cliente, :fecha_correspondiente)";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
-        $stmt->bindParam("id_usuario", $factura->id_usuario);
+        $stmt->bindParam("id_usuario", $usuarioId);
         $stmt->bindParam("nombre_nota", $factura->nombre_nota);
         $stmt->bindParam("nombre_pdf", $factura->nombre_pdf);
         $stmt->bindParam("nombre_xml", $factura->nombre_xml);
-        $stmt->bindParam("rfc_cliente", $factura->rfc_cliente);
+        $stmt->bindParam("rfc_cliente", $rfc_cliente);
         $stmt->bindParam("fecha_correspondiente", $factura->fecha_correspondiente);
         $stmt->execute();
         $factura->id = $db->lastInsertId();
@@ -121,7 +129,7 @@ function findFacturaByRFC($query) {
         $stmt->execute();
         $facturas = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        echo '{"factura": ' . json_encode($facturas) . '}';
+        echo '{"facturas": ' . json_encode($facturas) . '}';
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -226,10 +234,44 @@ function findUsuarioByRFC($query){
     }
 }
 
+function findUsuarioByRFCBatch($query){
+    $sql = "SELECT * FROM usuarios WHERE UPPER(rfc)=UPPER(:query) ORDER BY rfc";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $query = $query;
+        $stmt->bindParam("query", $query);
+        $stmt->execute();
+        $usuario = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $usuario;
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
+
+function addUsuarioBatch($rfcParam){
+    $sql = "INSERT INTO usuarios (nombre, pass, rfc, user) VALUES (:nombre, :pass, :rfc, :user)";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("nombre", $rfcParam);
+        $stmt->bindParam("pass", md5($rfcParam));
+        $stmt->bindParam("rfc", $rfcParam);
+        $stmt->bindParam("user", $rfcParam);
+        $stmt->execute();
+        $usuario->id = $db->lastInsertId();
+        $db = null;
+        return $usuario;
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
 function getConnection() {
     $dbhost="127.0.0.1";
-    $dbuser="covegusa_user";
-    $dbpass="c0v3gusQ";
+    $dbuser="root";
+    $dbpass="root";
     $dbname="covegusa_db";
     $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass,
         array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));

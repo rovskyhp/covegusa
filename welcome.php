@@ -50,11 +50,11 @@ body {
             <th>ID factura</th>
             <th>ID Usuario</th>
             <th>Fecha</th>
-            <th>Fecha de creaci&oacute;n</th>
+            <!-- <th>Fecha de creaci&oacute;n</th> -->
             <th>RFC</th>
             <th>PDF</th>
             <th>XML</th>
-            <th>Notas</th>
+            <!-- <th>Notas</th> -->
         </tr>
     </thead>
     <tfoot>
@@ -62,11 +62,11 @@ body {
             <th>ID factura</th>
             <th>ID Usuario</th>
             <th>Fecha</th>
-            <th>Fecha de creaci&oacute;n</th>
+            <!-- <th>Fecha de creaci&oacute;n</th> -->
             <th>RFC</th>
             <th>PDF</th>
             <th>XML</th>
-            <th>Notas</th>
+            <!-- <th>Notas</th> -->
         </tr>
     </tfoot>
 
@@ -78,9 +78,36 @@ body {
 <script>
 
 $(document).ready(function() {
-    var url= "/api/facturas/search/<?php echo $rfc_session?>"
+    var url= "api/facturas/search/<?php echo $rfc_session?>"
     $('#example').dataTable( {
-         "sAjaxSource": url
+         "ajax": {
+            "url" : url,
+            "dataSrc": "facturas",
+            "cache": true
+         },
+         "columns": [
+            { "data": "id_factura" },
+            { "data": "id_usuario" },
+            { "data": "fecha_correspondiente" },
+            { "data": "rfc_cliente" },
+            {
+              "data": "nombre_pdf",
+              "render": function ( data, type, full ) {
+                return '<a href="getFile.php?filename='+data+'">Descargar PDF</a>';
+              }
+            },
+            { "data": "nombre_xml",
+              "render": function ( data, type, full ) {
+                return '<a href="getFile.php?filename='+data+'">Descargar XML</a>';
+              }
+            }
+            /*,
+            { "data": "nombre_nota",
+              "render": function ( data, type, full ) {
+                return '<a href="getFile.php?filename='+data+'">Descargar Notas</a>';
+              }
+            }*/
+        ],
     } );
 } );
 
